@@ -1,9 +1,21 @@
 [package]
 name = "diff_data_rs"
-version = "0.2.0"
+version = "0.2.2"
 edition = "2024"
+authors = ["Vlad Krinitsyn<v.krinitsyn@gmail.com>"]
+description = "DB data compare by md5 rows"
+license = "MIT"
+repository = "https://github.com/vkrinitsyn/data-diff"
+
+
+[[bin]]
+name = "data-diff"
+path = "src/main.rs"
 
 [dependencies]
+clap = { version = "4", features = ["derive"] }
+rust-i18n = "3"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tokio = { version = "1", features = ["full"] }
 bb8 = "0.9"
 bb8-postgres = "0.9"
