@@ -33,6 +33,12 @@ pub enum DataDiffError {
 
     #[error("Configuration error: {0}")]
     Config(String),
+
+    #[error("Checksum error: {0}")]
+    Checksum(String),
+
+    #[error("YAML error: {0}")]
+    Yaml(#[from] serde_yaml::Error),
 }
 
 pub type Result<T> = std::result::Result<T, DataDiffError>;

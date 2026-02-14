@@ -125,6 +125,16 @@ pub struct DiffConfig {
     pub output_stream: Option<Arc<Mutex<dyn io::Write + Send>>>,
     /// Optional progress callback.
     pub on_progress: Option<Arc<dyn Fn(ProgressEvent) + Send + Sync>>,
+    /// Path to load pre-computed reference checksums (skip live ref DB query).
+    pub reference_checksum_file: Option<PathBuf>,
+    /// Path to load pre-computed target checksums (skip live target DB query).
+    pub target_checksum_file: Option<PathBuf>,
+    /// Path to save computed reference checksums for later reuse.
+    pub save_reference_checksums: Option<PathBuf>,
+    /// Path to save computed target checksums for later reuse.
+    pub save_target_checksums: Option<PathBuf>,
+    /// When true, only compute/compare checksums without generating SQL.
+    pub checksum_only: bool,
 }
 
 impl std::fmt::Debug for DiffConfig {
@@ -154,6 +164,11 @@ impl std::fmt::Debug for DiffConfig {
             .field("max_etc_seconds", &self.max_etc_seconds)
             .field("output_stream", &self.output_stream.as_ref().map(|_| "..."))
             .field("on_progress", &self.on_progress.as_ref().map(|_| "..."))
+            .field("reference_checksum_file", &self.reference_checksum_file)
+            .field("target_checksum_file", &self.target_checksum_file)
+            .field("save_reference_checksums", &self.save_reference_checksums)
+            .field("save_target_checksums", &self.save_target_checksums)
+            .field("checksum_only", &self.checksum_only)
             .finish()
     }
 }
@@ -192,6 +207,11 @@ impl DiffConfig {
             max_etc_seconds: 10800.0,
             output_stream: None,
             on_progress: None,
+            reference_checksum_file: None,
+            target_checksum_file: None,
+            save_reference_checksums: None,
+            save_target_checksums: None,
+            checksum_only: false,
         }
     }
 

@@ -1,13 +1,13 @@
 # data-diff
 PostgreSQL DB data diff compare
 
-Identify schema diff:
+## Identify schema diff:
 use schema_guard_tokio crate fn load_info_schema() from ..\schema_guard\ to get table schema, and compare (use diff_doc from ..\diff-doc-rs) with source and target,
 if mismatch but target has more columns than source OR table is in exclusion, than proceed with diff, otherwise,
 skip diff and output a message of schema mismatch and request to add table to exclusion or define a timestamp column for diff.
 remove ignore_missing_target
 
-Identify chunk strategy:
+## Identify chunk strategy:
 
 1. figure out a timestamp column name: update* if not exists then create* timestamp,
    -or use a DiffConfig defined column name for common a timestamp column name.
@@ -29,3 +29,8 @@ Identify chunk strategy:
 - check each tables total size, define timestamp column, try to md5 a 1/10 of chunk but more than 100K rows, and estimate time for each chunk, than sum up for total ETC estimation.
 - if takes more than 3 hour, than exist with a message of ETC and request a special flag for force a task run.
 - progress flags is on by default, but if --no-progress flag is set, than no progress output.
+
+## Split the job into multiple tasks:
+ - Also there is a feature for checksum calculation only and a feature for generating sql based on provided calculated md5 from previous step.
+ - if specific flag set then md5 checksum of calculated chunks with a strategies will send into another output format ot use to compare one db with another. 
+ - This allow to do md5 calculation for two db separately in background, then compare result and proceed with generating sql content. 

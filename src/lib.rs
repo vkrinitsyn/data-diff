@@ -1,3 +1,4 @@
+pub mod checksum;
 pub mod chunk_strategy;
 pub mod config;
 pub mod data_diff;
@@ -10,6 +11,11 @@ pub mod sql_gen;
 pub mod table_diff;
 pub mod types;
 
+pub use checksum::{
+    ChecksumManifest, ChunkChecksum, TableChecksum, TableDiffSummary,
+    compare_checksums, compute_db_checksums, compute_table_checksums,
+    load_checksums, save_checksums,
+};
 pub use config::{DiffConfig, PgPool, TablePair};
 pub use data_diff::DataDiff;
 pub use error::{DataDiffError, Result};

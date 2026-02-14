@@ -1,9 +1,10 @@
 use std::fmt;
 
 use postgres_types::Type;
+use serde::{Deserialize, Serialize};
 
 /// Chunk strategy determined by table size and available timestamp column.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ChunkStrategy {
     /// Small table (<100K rows): chunk by ID.
     IdChunkSmall,
